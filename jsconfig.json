@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "target": "ESNext",
+        "module": "ESNext",
+        "strict": true,
+        "sourceMap": true,
+        "moduleResolution": "Node",
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ScriptHost",
+            "ESNext"
+        ],
+        "paths": {
+          "@/*": [
+            "./src/*"
+          ],
+          "@styles/*": ["./src/assets/styles/*"]
+        }
+    },
+    "include": [
+      "src/**/*.js",
+      "src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules/**/*"
+    ]
+}

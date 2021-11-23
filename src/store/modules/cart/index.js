@@ -61,10 +61,10 @@ export const cart = {
         updateAmmount = cartProduct.quantity + ammount
       } else if (shopAction === SHOP_ACTIONS.SELL) {
         updateAmmount = cartProduct.quantity - ammount
+      }
 
-        if (updateAmmount === 0) {
-          dispatch('removeProduct', product)
-        }
+      if (updateAmmount === 0) {
+        dispatch('removeProduct', product)
       }
 
       cartProduct.quantity = updateAmmount

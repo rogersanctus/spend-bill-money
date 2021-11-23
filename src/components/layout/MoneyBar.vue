@@ -5,16 +5,13 @@
 <script>
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
+import { currencyHelper } from '@/helpers/currencyHelper'
 
 export default defineComponent({
   setup() {
     const store = useStore()
     const money = computed(() =>
-      Number(store.state.money.ammount || 0).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0
-      })
+      currencyHelper.toDollar(store.state.money.ammount)
     )
 
     return {

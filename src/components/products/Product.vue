@@ -12,6 +12,7 @@
 <script>
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
+import { currencyHelper } from '@/helpers/currencyHelper'
 
 export default defineComponent({
   props: {
@@ -27,11 +28,7 @@ export default defineComponent({
     })
 
     const price = computed(() => {
-      return Number(props.product.price).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0
-      })
+      return currencyHelper.toDollar(props.product.price)
     })
 
     return {

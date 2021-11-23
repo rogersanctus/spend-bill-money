@@ -17,6 +17,9 @@ export const products = {
   },
   mutations: {
     [MUTATIONS.SET_PRODUCTS](state, products_list) {
+      // Inject fake product codes
+      products_list.forEach((product, index) => (product.code = index))
+
       state.items = products_list
     }
   }

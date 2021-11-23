@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button class="btn btn__red" :class="{ 'btn--disabled': isSellDisabled }">
+    <button
+      class="btn btn__red"
+      :class="{ 'btn--disabled': isSellDisabled }"
+      @click.prevent="sellProduct()"
+    >
       Sell
     </button>
     <input
@@ -28,22 +32,28 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore()
-    const isSellDisabled = computed(() => {
-      return false
-    })
 
     const quantity = computed(() => {
       return store.getters['cart/quantityForProductCode'](props.product.code)
+    })
+
+    const isSellDisabled = computed(() => {
+      return quantity.value === 0
     })
 
     function buyProduct(ammount = 1) {
       store.dispatch('cart/buyProduct', { product: props.product, ammount })
     }
 
+    function sellProduct() {
+      store.dispatch('cart/sellProduct', { product: props.product })
+    }
+
     return {
       isSellDisabled,
       quantity,
-      buyProduct
+      buyProduct,
+      sellProduct
     }
   }
 })

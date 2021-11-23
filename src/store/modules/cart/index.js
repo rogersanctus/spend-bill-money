@@ -2,6 +2,11 @@ export const MUTATIONS = {
   ADD_PRODUCT: 'ADD_PRODUCT'
 }
 
+const SHOP_ACTIONS = {
+  BUY: 'buy',
+  SELL: 'sell'
+}
+
 export const cart = {
   namespaced: true,
   state: () => ({
@@ -25,14 +30,13 @@ export const cart = {
     }
   },
   actions: {
-    buyProduct({ commit, state, getters, dispatch }, { product, ammount = 0 }) {
-      if (ammount < 1) {
-        return
-      }
-
+    updateProductAmmount(
+      { commit, state, getters, dispatch },
+      { product, ammount = 1, shopAction = undefined }
+    ) {
       let cartProduct = state.items.find((item) => item.code === product.code)
 
-      if (!cartProduct) {
+      if (!cartProduct && ammount > 0) {
         cartProduct = {
           code: product.code,
           description: product.description,
@@ -42,9 +46,29 @@ export const cart = {
         commit(MUTATIONS.ADD_PRODUCT, cartProduct)
       }
 
-      cartProduct.quantity += ammount
+      let updateAmmount = ammount
+
+      if (shopAction === SHOP_ACTIONS.BUY) {
+        updateAmmount = cartProduct.quantity + ammount
+      } else if (shopAction === SHOP_ACTIONS.SELL) {
+        updateAmmount = cartProduct.quantity - ammount
+      }
+
+      cartProduct.quantity = updateAmmount
       dispatch('money/updateFromSpent', getters.totalSpent, {
         root: true
+      })
+    },
+    buyProduct({ dispatch }, { product }) {
+      dispatch('updateProductAmmount', {
+        product,
+        shopAction: SHOP_ACTIONS.BUY
+      })
+    },
+    sellProduct({ dispatch }, { product }) {
+      dispatch('updateProductAmmount', {
+        product,
+        shopAction: SHOP_ACTIONS.SELL
       })
     }
   },

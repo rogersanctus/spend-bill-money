@@ -15,6 +15,7 @@
       id="quantity"
       aria-describedby="Quantity of product bought"
       :value="quantity"
+      @input="updateProductAmmount"
     />
     <button class="btn btn__green" @click.prevent="buyProduct()">Buy</button>
   </div>
@@ -41,19 +42,37 @@ export default defineComponent({
       return quantity.value === 0
     })
 
-    function buyProduct(ammount = 1) {
-      store.dispatch('cart/buyProduct', { product: props.product, ammount })
+    function buyProduct() {
+      store.dispatch('cart/buyProduct', { product: props.product })
     }
 
     function sellProduct() {
+      if (isSellDisabled.value) {
+        return
+      }
+
       store.dispatch('cart/sellProduct', { product: props.product })
+    }
+
+    function updateProductAmmount({ target }) {
+      let { value } = target
+
+      if (!value || value < 0) {
+        value = 0
+      }
+
+      store.dispatch('cart/updateProductAmmount', {
+        product: props.product,
+        ammount: parseInt(value)
+      })
     }
 
     return {
       isSellDisabled,
       quantity,
       buyProduct,
-      sellProduct
+      sellProduct,
+      updateProductAmmount
     }
   }
 })

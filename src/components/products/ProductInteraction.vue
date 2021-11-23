@@ -7,6 +7,7 @@
       type="number"
       pattern="\d*"
       name="quantity"
+      min="0"
       id="quantity"
       aria-describedby="Quantity of product bought"
       :value="quantity"
@@ -25,14 +26,14 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     const isSellDisabled = computed(() => {
       return false
     })
 
     const quantity = computed(() => {
-      return store.state.cart.quantity
+      return store.getters['cart/quantityForProductCode'](props.product.code)
     })
 
     return {

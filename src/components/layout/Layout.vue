@@ -35,9 +35,9 @@ main {
   header {
     text-align: center;
     font-size: 32px;
-    font-weight: 500;
+    font-weight: 600;
     padding: 30px 20px;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     line-height: 1.3em;
   }
 }

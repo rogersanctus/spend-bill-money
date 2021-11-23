@@ -12,7 +12,7 @@
       aria-describedby="Quantity of product bought"
       :value="quantity"
     />
-    <button class="btn btn__green">Buy</button>
+    <button class="btn btn__green" @click.prevent="buyProduct()">Buy</button>
   </div>
 </template>
 <script>
@@ -36,9 +36,14 @@ export default defineComponent({
       return store.getters['cart/quantityForProductCode'](props.product.code)
     })
 
+    function buyProduct(ammount = 1) {
+      store.dispatch('cart/buyProduct', { product: props.product, ammount })
+    }
+
     return {
       isSellDisabled,
-      quantity
+      quantity,
+      buyProduct
     }
   }
 })

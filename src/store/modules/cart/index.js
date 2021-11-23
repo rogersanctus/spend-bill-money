@@ -30,6 +30,15 @@ export const cart = {
     }
   },
   actions: {
+    removeProduct({ state }, product) {
+      const productIndex = state.items.findIndex(
+        (item) => item.code === product.code
+      )
+
+      if (productIndex !== -1) {
+        state.items.splice(productIndex, 1)
+      }
+    },
     updateProductAmmount(
       { commit, state, getters, dispatch },
       { product, ammount = 1, shopAction = undefined }
@@ -52,6 +61,10 @@ export const cart = {
         updateAmmount = cartProduct.quantity + ammount
       } else if (shopAction === SHOP_ACTIONS.SELL) {
         updateAmmount = cartProduct.quantity - ammount
+
+        if (updateAmmount === 0) {
+          dispatch('removeProduct', product)
+        }
       }
 
       cartProduct.quantity = updateAmmount

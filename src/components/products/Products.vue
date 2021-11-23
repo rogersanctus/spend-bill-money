@@ -1,18 +1,25 @@
 <template>
-  <Product
-    v-for="(product, index) in products"
-    :key="index"
-    :product="product"
-  />
+  <div class="products-container">
+    <div
+      class="product-wrapper"
+      v-for="(product, index) in products"
+      :key="index"
+    >
+      <Product :product="product" />
+      <ProductInteraction :product="product" />
+    </div>
+  </div>
 </template>
 <script>
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import Product from './Product.vue'
+import ProductInteraction from './ProductInteraction.vue'
 
 export default defineComponent({
   components: {
-    Product
+    Product,
+    ProductInteraction
   },
   setup() {
     const store = useStore()
@@ -31,8 +38,32 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-div {
-  content: 'a';
-  width: 100%;
+@import '~@styles/consts.scss';
+
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px 10px;
+
+  .product-wrapper {
+    max-width: 100%;
+    background-color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 15px;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: $mobile-width-limit) {
+  .products-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: $tablet-width-limit) {
+  .products-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>
